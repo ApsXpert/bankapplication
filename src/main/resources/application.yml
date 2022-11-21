@@ -1,0 +1,37 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: bankapplication
+  jpa:
+    properties:
+      hibernate.show_sql: true
+      hibernate.default-schema: bank_application
+      hibernate:
+        generate_statistics: false
+        order_inserts: true
+        jdbc:
+          batch_size: 10
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    password: postgres
+    url: jdbc:postgresql://localhost:5430/bank_application?currentSchema=bank
+    username: postgres
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 30000
+      minimum-idle: 5
+      maximum-pool-size: 20
+      leak-detection-threshold: 1000
+      pool-name: VAPPOOL
+      max-lifetime: 2000000
+
+
+logging:
+  level:
+     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+     org.springframework.web: DEBUG
+
+
+
