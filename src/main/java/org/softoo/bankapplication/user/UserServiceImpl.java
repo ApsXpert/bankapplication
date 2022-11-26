@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.softoo.bankapplication.dto.CreateUserDTO;
+import org.softoo.bankapplication.exceptions.CNICAlreadyExistedException;
+import org.softoo.bankapplication.exceptions.EmailAlreadyExistedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +20,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User create(CreateUserDTO dto) {
-		Optional<User> u = userRepository.findByIdForReference(dto.getCnic());
+		
+		long cnic = Long.valueOf(dto.getCnic());
+		Optional<User> u = userRepository.findByIdForReference(cnic);
 
 		if (u.isPresent()) {
-			throw new RuntimeException("User id already exist: " + dto.getCnic());
+			throw new CNICAlreadyExistedException("User id already exist: " + dto.getCnic());
 		}
 
 		u = userRepository.findByEmail(dto.getEmail());
 
 		if (u.isPresent()) {
-			throw new RuntimeException("User email already exist: " + dto.getCnic());
+			throw new EmailAlreadyExistedException("User email already exist: " + dto.getEmail());
 		}
 
 		User user = modelMapper.map(dto, User.class);

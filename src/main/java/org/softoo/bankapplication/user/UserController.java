@@ -1,5 +1,7 @@
 package org.softoo.bankapplication.user;
 
+import javax.validation.Valid;
+
 import org.softoo.bankapplication.dto.CreateUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +17,7 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping
-	public User create(@RequestBody CreateUserDTO dto) {
+	public User create(@Valid @RequestBody CreateUserDTO dto) {
 		System.out.println(dto.toString());
 		return userService.create(dto);
 	}
